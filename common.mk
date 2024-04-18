@@ -64,7 +64,8 @@ PRODUCT_PACKAGES += \
     vendor.qti.hardware.AGMIPC@1.0-service \
     vendor.qti.hardware.pal@1.0-impl
 
-AUDIO_HAL_DIR := hardware/qcom-caf/sm8450/audio/primary-hal
+#AUDIO_HAL_DIR := hardware/qcom-caf/sm8450/audio/primary-hal
+AUDIO_HAL_DIR := vendor/qcom/opensource/audio-hal/primary-hal
 QCV_FAMILY_SKUS := cape taro ukee
 
 PRODUCT_COPY_FILES += \
