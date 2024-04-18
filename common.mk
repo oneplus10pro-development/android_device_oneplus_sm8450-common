@@ -220,8 +220,9 @@ PRODUCT_COPY_FILES += \
 
 # Health
 PRODUCT_PACKAGES += \
-    android.hardware.health@2.1.vendor \
-    android.hardware.health-service.qti
+   #android.hardware.health@1.0.vendor \
+   android.hardware.health@2.1.vendor \
+   android.hardware.health-service.qti
 
 # HIDL
 PRODUCT_PACKAGES += \
@@ -315,8 +316,8 @@ PRODUCT_PACKAGES += \
     libstagefrighthw
 
 # Overlays
-$(call inherit-product, hardware/oplus/overlay/generic/generic.mk)
-$(call inherit-product, hardware/oplus/overlay/qssi/qssi.mk)
+#$(call inherit-product, hardware/oplus/overlay/generic/generic.mk)
+#$(call inherit-product, hardware/oplus/overlay/qssi/qssi.mk)
 
 DEVICE_PACKAGE_OVERLAYS += \
     $(LOCAL_PATH)/overlay-lineage
