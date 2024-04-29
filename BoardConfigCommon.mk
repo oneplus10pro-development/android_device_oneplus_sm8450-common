@@ -98,6 +98,11 @@ ODM_MANIFEST_FILES := $(COMMON_PATH)/manifest_odm.xml
 # Init
 TARGET_INIT_VENDOR_LIB := //$(COMMON_PATH):libinit_oplus
 
+# DTB
+#BOARD_USES_DT := true
+#BOARD_PREBUILT_DTBIMAGE_DIR := $(KERNEL_PATH)/dtbs
+#BOARD_PREBUILT_DTBOIMAGE := $(KERNEL_PATH)/dtbs/dtbo.img
+
 # Kernel
 BOARD_BOOT_HEADER_VERSION := 4
 BOARD_BOOTCONFIG:= \
@@ -112,7 +117,38 @@ BOARD_MKBOOTIMG_ARGS += --header_version $(BOARD_BOOT_HEADER_VERSION)
 BOARD_RAMDISK_USE_LZ4 := true
 
 BOARD_USES_GENERIC_KERNEL_IMAGE := true
+BOARD_INCLUDE_DTB_IN_BOOTIMG := true
 TARGET_HAS_GENERIC_KERNEL_HEADERS := true
+
+# Kill lineage kernel build task while preserving kernel
+#TARGET_NO_KERNEL_OVERRIDE := true
+
+# Workaround to make lineage's soong generator work
+#TARGET_KERNEL_SOURCE := $(KERNEL_PATH)/kernel-headers
+
+# Kernel Binary
+#TARGET_KERNEL_VERSION := 5.10
+#LOCAL_KERNEL := $(KERNEL_PATH)/Image
+#PRODUCT_COPY_FILES += \
+#	$(LOCAL_KERNEL):kernel
+
+# Kernel modules
+#BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_ramdisk/modules.load))
+#BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/vendor_ramdisk/, $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD))
+#BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(KERNEL_PATH)/vendor_ramdisk/modules.blocklist
+
+# Also add recovery modules to vendor ramdisk
+#BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_ramdisk/modules.load.recovery))
+#RECOVERY_MODULES := $(addprefix $(KERNEL_PATH)/vendor_ramdisk/, $(BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD))
+
+# Prevent duplicated entries (to solve duplicated build rules problem)
+#BOARD_VENDOR_RAMDISK_KERNEL_MODULES := $(sort $(BOARD_VENDOR_RAMDISK_KERNEL_MODULES) $(RECOVERY_MODULES))
+
+# Vendor modules (installed to vendor_dlkm)
+#BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(KERNEL_PATH)/vendor_dlkm/modules.load))
+#BOARD_VENDOR_KERNEL_MODULES := $(addprefix $(KERNEL_PATH)/vendor_dlkm/, $(BOARD_VENDOR_KERNEL_MODULES_LOAD))
+#BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE :=  $(KERNEL_PATH)/vendor_dlkm/modules.blocklist
+
 
 # Kernel Modules
 #BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(DEVICE_PATH)/modules.load.recovery))
@@ -123,12 +159,12 @@ TARGET_HAS_GENERIC_KERNEL_HEADERS := true
 #TARGET_KERNEL_CONFIG := gki_defconfig vendor/waipio_GKI.config vendor/oplus_GKI.config
 
 # Kernel modules
-BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(COMMON_PATH)/modules.vendor_blocklist.msm.waipio
-BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load))
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE)
-BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load.vendor_boot))
-BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load.recovery))
-BOOT_KERNEL_MODULES := $(strip $(shell cat $(COMMON_PATH)/modules.load.recovery))
+#BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE := $(COMMON_PATH)/modules.vendor_blocklist.msm.waipio
+#BOARD_VENDOR_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load))
+#BOARD_VENDOR_RAMDISK_KERNEL_MODULES_BLOCKLIST_FILE := $(BOARD_VENDOR_KERNEL_MODULES_BLOCKLIST_FILE)
+#BOARD_VENDOR_RAMDISK_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load.vendor_boot))
+#BOARD_VENDOR_RAMDISK_RECOVERY_KERNEL_MODULES_LOAD := $(strip $(shell cat $(COMMON_PATH)/modules.load.recovery))
+#BOOT_KERNEL_MODULES := $(strip $(shell cat $(COMMON_PATH)/modules.load.recovery))
 #TARGET_KERNEL_EXT_MODULE_ROOT := kernel/oneplus/sm8450-modules
 #TARGET_KERNEL_EXT_MODULES := \
 #    qcom/opensource/mmrm-driver \
